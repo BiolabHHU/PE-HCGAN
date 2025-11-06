@@ -227,7 +227,7 @@ class AudioRestorationModel(nn.Module):
         # 拆分实部和虚部
         real, imag = torch.split(x, x.size(1) // 2, dim=1)  # 各 (B, C, Fr, T)
         # 模块
-        f0 = torch.full((B, T), 200).to('cuda:0')
+        f0 = torch.full((B, T), 200).to('cuda:0')  # 此处选用可调整的参数形式，以200为先验基频的情况下仍能取得增强效果
         real = self.HAM(real, f0)
         # 恢复为 x 的格式
         x = torch.cat([real, imag], dim=1)  # shape: (B, C*2, Fr, T)
